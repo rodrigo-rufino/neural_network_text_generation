@@ -8,6 +8,11 @@ import torch.nn.functional as F
 with open('data/smiths.txt', 'r') as f:
     text = f.read()
 
+# Declaring the hyperparameters
+batch_size = 128
+seq_length = 100
+n_epochs = 5 # start smaller if you are just testing initial behavior
+
 # Showing the first 100 characters
 text[:100]
 
@@ -243,10 +248,7 @@ n_layers=2
 net = CharRNN(chars, n_hidden, n_layers)
 print(net)
 
-# Declaring the hyperparameters
-batch_size = 128
-seq_length = 100
-n_epochs = 50 # start smaller if you are just testing initial behavior
+
 
 # train the model
 train(net, encoded, epochs=n_epochs, batch_size=batch_size, seq_length=seq_length, lr=0.001, print_every=50)
@@ -311,6 +313,9 @@ def sample(net, size, prime='The', top_k=None):
     net.eval() # eval mode
     
     # First off, run through the prime characters
+
+    torch.save(net, "./smiths_bowie")
+    
     chars = [ch for ch in prime]
     h = net.init_hidden(1)
     for ch in prime:
