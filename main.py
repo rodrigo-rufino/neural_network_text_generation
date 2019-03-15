@@ -254,12 +254,12 @@ if(already_trained == ""):
 
     net = CharRNN(chars, n_hidden, n_layers)
     print(net)
-    
+
     train(net, encoded, epochs=n_epochs, batch_size=batch_size, seq_length=seq_length, lr=0.001, print_every=50)
 
     # Saving the model
     model_name = 'rnn_20_epoch.net'
-elif:
+else:
     model = torch.load('./rnn_20_epoch.net')
     model.eval()
 
