@@ -3,6 +3,10 @@ import numpy as np
 import torch
 from torch import nn
 import torch.nn.functional as F
+import sys
+
+already_trained = sys.argv[1]
+
 
 # Open shakespeare text file and read in data as `text`
 with open('data/smiths.txt', 'r') as f:
@@ -241,20 +245,23 @@ def train(net, data, epochs=10, batch_size=10, seq_length=50, lr=0.001, clip=5, 
                       "Loss: {:.4f}...".format(loss.item()),
                       "Val Loss: {:.4f}".format(np.mean(val_losses)))
                       
-# Define and print the net
-n_hidden=512
-n_layers=2
-
-net = CharRNN(chars, n_hidden, n_layers)
-print(net)
-
-
 
 # train the model
-train(net, encoded, epochs=n_epochs, batch_size=batch_size, seq_length=seq_length, lr=0.001, print_every=50)
+if(already_trained == ""):
+    # Define and print the net
+    n_hidden=512
+    n_layers=2
 
-# Saving the model
-model_name = 'rnn_20_epoch.net'
+    net = CharRNN(chars, n_hidden, n_layers)
+    print(net)
+    
+    train(net, encoded, epochs=n_epochs, batch_size=batch_size, seq_length=seq_length, lr=0.001, print_every=50)
+
+    # Saving the model
+    model_name = 'rnn_20_epoch.net'
+elif:
+    model = torch.load('./rnn_20_epoch.net')
+    model.eval()
 
 checkpoint = {'n_hidden': net.n_hidden,
               'n_layers': net.n_layers,
